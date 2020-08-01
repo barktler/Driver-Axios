@@ -6,3 +6,11 @@
 [![downloads](https://img.shields.io/npm/dm/@barktler/driver-axios.svg)](https://www.npmjs.com/package/@barktler/driver-axios)
 
 :cactus: Axios driver for Barktler
+
+## Install
+
+```sh
+yarn add @barktler/driver-axios
+# Or
+npm install @barktler/driver-axios --save
+```
