@@ -16,7 +16,8 @@
   },
   "homepage": "https://github.com/barktler/Driver-Axios#readme",
   "dependencies": {
-    "@barktler/driver": "^1.0.0"
+    "@barktler/driver": "^1.1.0",
+    "axios": "^0.19.2"
   },
   "devDependencies": {
     "@sudoo/io": "^1.8.0",
