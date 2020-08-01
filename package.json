@@ -15,11 +15,14 @@
     "url": "https://github.com/barktler/Driver-Axios/issues"
   },
   "homepage": "https://github.com/barktler/Driver-Axios#readme",
+  "peerDependencies": {
+    "@barktler/driver": "*"
+  },
   "dependencies": {
-    "@barktler/driver": "^1.1.0",
     "axios": "^0.19.2"
   },
   "devDependencies": {
+    "@barktler/driver": "^1.1.0",
     "@sudoo/io": "^1.8.0",
     "@sudoo/triforce": "^2.7.10"
   },
