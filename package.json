@@ -1,0 +1,40 @@
+{
+  "name": "@barktler/driver-axios",
+  "version": "1.0.0",
+  "description": ":cactus: Axios driver for Barktler",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barktler/Driver-Axios.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barktler/Driver-Axios/issues"
+  },
+  "homepage": "https://github.com/barktler/Driver-Axios#readme",
+  "dependencies": {
+    "@barktler/driver": "^1.0.0"
+  },
+  "devDependencies": {
+    "@sudoo/io": "^1.8.0",
+    "@sudoo/triforce": "^2.7.10"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "sourceMap": true
+  }
+}
