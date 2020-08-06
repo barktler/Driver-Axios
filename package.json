@@ -1,6 +1,6 @@
 {
   "name": "@barktler/driver-axios",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": ":cactus: Axios driver for Barktler",
   "repository": {
     "type": "git",
@@ -15,16 +15,13 @@
     "url": "https://github.com/barktler/Driver-Axios/issues"
   },
   "homepage": "https://github.com/barktler/Driver-Axios#readme",
-  "peerDependencies": {
-    "@barktler/driver": "*"
-  },
   "dependencies": {
     "axios": "^0.19.2"
   },
   "devDependencies": {
-    "@barktler/driver": "^1.1.0",
+    "@barktler/driver": "^1.4.0",
     "@sudoo/io": "^1.8.0",
-    "@sudoo/triforce": "^2.7.10"
+    "@sudoo/triforce": "^2.7.11"
   },
   "nyc": {
     "extension": [
