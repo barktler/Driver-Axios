@@ -19,7 +19,7 @@
     "axios": "^0.19.2"
   },
   "devDependencies": {
-    "@barktler/driver": "^1.5.0",
+    "@barktler/driver": "^2.0.0",
     "@sudoo/io": "^1.8.0",
     "@sudoo/triforce": "^2.7.11"
   },
