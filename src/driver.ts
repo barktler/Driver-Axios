@@ -4,8 +4,8 @@
  * @description Driver
  */
 
-import Axios, { AxiosRequestConfig, AxiosResponse, CancelToken, CancelTokenSource, Canceler } from "axios";
-import { IRequestConfig, IResponseConfig, RequestDriver, PendingRequest } from "@barktler/driver";
+import { IRequestConfig, IResponseConfig, PendingRequest, RequestDriver } from "@barktler/driver";
+import Axios, { AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from "axios";
 
 export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>, cancelToken: CancelToken): AxiosRequestConfig => {
 
