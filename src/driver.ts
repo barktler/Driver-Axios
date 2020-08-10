@@ -42,6 +42,7 @@ export const axiosDriver: RequestDriver = <Body extends any = any, Data extends 
 
     let canceler: Canceler;
     const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, new Axios.CancelToken((targetCanceler: Canceler) => {
+
         canceler = targetCanceler;
     }));
 

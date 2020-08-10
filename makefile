@@ -14,6 +14,10 @@ dev:
 	@echo "[INFO] Building for development"
 	@NODE_ENV=development $(tsc) --p $(dev)
 
+run-example:
+	@echo "[INFO] Running Example"
+	@NODE_ENV=development $(ts_node) --project $(dev) example/example.ts
+
 build:
 	@echo "[INFO] Building for production"
 	@NODE_ENV=production $(tsc) --p $(build)
