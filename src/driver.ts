@@ -41,10 +41,10 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
 export const axiosDriver: RequestDriver = <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
 
     let canceler: Canceler;
-    const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, new Axios.CancelToken((targetCanceler: Canceler) => {
-
+    const cancelToken: CancelToken = new Axios.CancelToken((targetCanceler: Canceler) => {
         canceler = targetCanceler;
-    }));
+    });
+    const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, cancelToken);
 
     const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
