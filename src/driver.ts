@@ -5,7 +5,7 @@
  */
 
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { IRequestConfig, IResponseConfig, RequestDriver } from "@barktler/driver";
+import { IRequestConfig, IResponseConfig, RequestDriver, PendingRequest } from "@barktler/driver";
 
 export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>): AxiosRequestConfig => {
 
@@ -36,12 +36,23 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
     };
 };
 
-export const axiosDriver: RequestDriver = async <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): Promise<IResponseConfig<Data>> => {
+export const axiosDriver: RequestDriver = async <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
 
     const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request);
 
-    const rawResponse: AxiosResponse<Data> = await Axios(requestConfig);
+    const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
-    const response = parseAxiosResponse<Data>(rawResponse);
+        response: (async (): Promise<IResponseConfig<Data>> => {
+
+            const rawResponse: AxiosResponse<Data> = await Axios(requestConfig);
+            const response = parseAxiosResponse<Data>(rawResponse);
+            return response;
+        })(),
+        abort: () => {
+
+        },
+    });
+
+
     return response;
 };
