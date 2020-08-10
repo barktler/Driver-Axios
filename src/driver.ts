@@ -4,12 +4,14 @@
  * @description Driver
  */
 
-import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import Axios, { AxiosRequestConfig, AxiosResponse, CancelToken, CancelTokenSource, Canceler } from "axios";
 import { IRequestConfig, IResponseConfig, RequestDriver, PendingRequest } from "@barktler/driver";
 
-export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>): AxiosRequestConfig => {
+export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>, cancelToken: CancelToken): AxiosRequestConfig => {
 
     return {
+
+        cancelToken,
 
         url: request.url,
         method: request.method,
@@ -36,9 +38,12 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
     };
 };
 
-export const axiosDriver: RequestDriver = async <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
+export const axiosDriver: RequestDriver = <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
 
-    const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request);
+    let canceler: Canceler;
+    const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, new Axios.CancelToken((targetCanceler: Canceler) => {
+        canceler = targetCanceler;
+    }));
 
     const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
@@ -50,9 +55,10 @@ export const axiosDriver: RequestDriver = async <Body extends any = any, Data ex
         })(),
         abort: () => {
 
+            if (canceler) {
+                canceler();
+            }
         },
     });
-
-
-    return response;
+    return pending;
 };
