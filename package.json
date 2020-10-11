@@ -1,6 +1,6 @@
 {
   "name": "@barktler/driver-axios",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": ":cactus: Axios driver for Barktler",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/barktler/Driver-Axios#readme",
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "0.20.0"
   },
   "devDependencies": {
     "@barktler/driver": "^2.0.0",
