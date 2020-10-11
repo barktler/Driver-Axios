@@ -21,7 +21,7 @@
   "devDependencies": {
     "@barktler/driver": "^2.0.0",
     "@sudoo/io": "^1.8.0",
-    "@sudoo/triforce": "^2.7.11"
+    "@sudoo/triforce": "^2.9.4"
   },
   "nyc": {
     "extension": [
