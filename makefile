@@ -45,14 +45,14 @@ lint-fix:
 	--config ./typescript/.eslintrc.json --fix
 
 install:
-	@echo "[INFO] Installing dev Dependencies"
+	@echo "[INFO] Installing Development Dependencies"
 	@yarn install --production=false
 
 install-prod:
 	@echo "[INFO] Installing Dependencies"
 	@yarn install --production=true
 
-outdated:
+outdated: install
 	@echo "[INFO] Checking Outdated Dependencies"
 	@yarn outdated
 
