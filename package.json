@@ -16,12 +16,12 @@
   },
   "homepage": "https://github.com/barktler/Driver-Axios#readme",
   "dependencies": {
-    "axios": "0.20.0"
+    "axios": "0.21.0"
   },
   "devDependencies": {
     "@barktler/driver": "^2.0.0",
     "@sudoo/io": "^1.8.0",
-    "@sudoo/triforce": "^2.9.4"
+    "@sudoo/triforce": "^2.9.6"
   },
   "nyc": {
     "extension": [
