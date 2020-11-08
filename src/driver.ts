@@ -7,7 +7,30 @@
 import { IRequestConfig, IResponseConfig, PendingRequest, RequestDriver } from "@barktler/driver";
 import Axios, { AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from "axios";
 
-export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>, cancelToken: CancelToken): AxiosRequestConfig => {
+export type AxiosDriverOptions = {
+
+    readonly bodyType: 'json' | 'form-data';
+};
+
+export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>, cancelToken: CancelToken, options: AxiosDriverOptions): AxiosRequestConfig => {
+
+    let data: any;
+
+    if (typeof request.body === 'undefined' || request.body === null) {
+
+        data = undefined;
+    } else if (options.bodyType === 'json') {
+
+        data = request.body;
+    } else if (options.bodyType === 'form-data') {
+
+        const formData: FormData = new FormData();
+        const keys: Array<keyof Body> = Object.keys(request.body) as Array<keyof Body>;
+
+        for (const key of keys) {
+            formData.append(key as string, request.body[key] as any);
+        }
+    }
 
     return {
 
@@ -18,7 +41,7 @@ export const generateAxiosRequest = <Body>(request: IRequestConfig<Body>, cancel
 
         headers: request.headers,
         params: request.params,
-        data: request.body,
+        data,
 
         timeout: request.timeout,
 
@@ -38,10 +61,13 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
     };
 };
 
-export type AxiosDriverOptions = {
-};
-
 export const createAxiosDriver = (options: Partial<AxiosDriverOptions>): RequestDriver => {
+
+    const mergedOptions: AxiosDriverOptions = {
+
+        bodyType: 'json',
+        ...options,
+    };
 
     const axiosDriver: RequestDriver = <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
 
@@ -49,7 +75,7 @@ export const createAxiosDriver = (options: Partial<AxiosDriverOptions>): Request
         const cancelToken: CancelToken = new Axios.CancelToken((targetCanceler: Canceler) => {
             canceler = targetCanceler;
         });
-        const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, cancelToken);
+        const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, cancelToken, mergedOptions);
 
         const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
