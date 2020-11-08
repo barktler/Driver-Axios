@@ -38,28 +38,35 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
     };
 };
 
-export const axiosDriver: RequestDriver = <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
+export type AxiosDriverOptions = {
+};
 
-    let canceler: Canceler;
-    const cancelToken: CancelToken = new Axios.CancelToken((targetCanceler: Canceler) => {
-        canceler = targetCanceler;
-    });
-    const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, cancelToken);
+export const createAxiosDriver = (options: Partial<AxiosDriverOptions>): RequestDriver => {
 
-    const pending: PendingRequest<Body, Data> = PendingRequest.create({
+    const axiosDriver: RequestDriver = <Body extends any = any, Data extends any = any>(request: IRequestConfig<Body>): PendingRequest<Body, Data> => {
 
-        response: (async (): Promise<IResponseConfig<Data>> => {
+        let canceler: Canceler;
+        const cancelToken: CancelToken = new Axios.CancelToken((targetCanceler: Canceler) => {
+            canceler = targetCanceler;
+        });
+        const requestConfig: AxiosRequestConfig = generateAxiosRequest<Body>(request, cancelToken);
 
-            const rawResponse: AxiosResponse<Data> = await Axios(requestConfig);
-            const response = parseAxiosResponse<Data>(rawResponse);
-            return response;
-        })(),
-        abort: () => {
+        const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
-            if (canceler) {
-                canceler();
-            }
-        },
-    });
-    return pending;
+            response: (async (): Promise<IResponseConfig<Data>> => {
+
+                const rawResponse: AxiosResponse<Data> = await Axios(requestConfig);
+                const response = parseAxiosResponse<Data>(rawResponse);
+                return response;
+            })(),
+            abort: () => {
+
+                if (canceler) {
+                    canceler();
+                }
+            },
+        });
+        return pending;
+    };
+    return axiosDriver;
 };
