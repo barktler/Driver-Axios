@@ -1,6 +1,6 @@
 {
   "name": "@barktler/driver-axios",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": ":cactus: Axios driver for Barktler",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "@barktler/driver": "^2.2.0",
     "@sudoo/io": "^1.8.0",
     "@sudoo/pattern": "^1.6.1",
-    "@sudoo/triforce": "^2.9.6"
+    "@sudoo/triforce": "^2.9.7"
   },
   "nyc": {
     "extension": [

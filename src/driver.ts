@@ -61,7 +61,7 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
     };
 };
 
-export const createAxiosDriver = (options: Partial<AxiosDriverOptions>): RequestDriver => {
+export const createAxiosDriver = (options: Partial<AxiosDriverOptions> = {}): RequestDriver => {
 
     const mergedOptions: AxiosDriverOptions = {
 
