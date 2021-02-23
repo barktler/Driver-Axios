@@ -5,7 +5,7 @@
  */
 
 import { IRequestConfig, IResponseConfig, PendingRequest, RequestDriver } from "@barktler/driver";
-import Axios, { AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from "axios";
+import Axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Canceler, CancelToken } from "axios";
 
 export type AxiosDriverOptions = {
 
@@ -53,11 +53,27 @@ export const parseAxiosResponse = <Data>(response: AxiosResponse<Data>): IRespon
 
     return {
 
+        succeed: true,
+
         data: response.data,
         status: response.status,
         statusText: response.statusText,
 
         headers: response.headers,
+    };
+};
+
+export const parseAxiosError = <Data>(response: AxiosError<Data>): IResponseConfig<Data> => {
+
+    return {
+
+        succeed: false,
+
+        data: response.response?.data as any,
+        status: response.response?.status as any,
+        statusText: response.response?.statusText as any,
+
+        headers: response.response?.headers ?? {},
     };
 };
 
@@ -79,12 +95,20 @@ export const createAxiosDriver = (options: Partial<AxiosDriverOptions> = {}): Re
 
         const pending: PendingRequest<Body, Data> = PendingRequest.create({
 
-            response: (async (): Promise<IResponseConfig<Data>> => {
+            response: (new Promise<IResponseConfig<Data>>((resolve: (response: IResponseConfig<Data>) => void) => {
 
-                const rawResponse: AxiosResponse<Data> = await Axios(requestConfig);
-                const response = parseAxiosResponse<Data>(rawResponse);
-                return response;
-            })(),
+                Axios(requestConfig).then((rawResponse: AxiosResponse<Data>) => {
+
+                    const response: IResponseConfig<Data> = parseAxiosResponse<Data>(rawResponse);
+                    resolve(response);
+                    return;
+                }).catch((rawErrorResponse: AxiosError<Data>) => {
+
+                    const response: IResponseConfig<Data> = parseAxiosError<Data>(rawErrorResponse);
+                    resolve(response);
+                    return;
+                });
+            })),
             abort: () => {
 
                 if (canceler) {
