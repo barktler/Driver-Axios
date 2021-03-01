@@ -22,7 +22,7 @@
     "@barktler/driver": "^3.0.0",
     "@sudoo/io": "^1.8.0",
     "@sudoo/pattern": "^1.6.1",
-    "@sudoo/triforce": "^2.9.16"
+    "@sudoo/triforce": "^2.9.17"
   },
   "nyc": {
     "extension": [
